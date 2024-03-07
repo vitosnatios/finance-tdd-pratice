@@ -1,0 +1,35 @@
+# Node.js modules
+node_modules/
+
+# Build output
+dist/
+
+# Editor temporary files
+.vscode/
+.idea/
+
+# Test coverage reports
+coverage/
+
+# Test results
+jest/__tests__/__snapshots__/
+jest/cache.json
+
+# Babel configuration
+.babelrc
+
+# Dependency lock files
+package-lock.json
+
+# IDE settings
+.eslintrc.json
+
+# Environment variables
+.env
+
+# Editor specific configuration files
+*.sublime-project
+
+# VSCode settings and extensions
+.vscode/settings.json
+!.vscode/settings.json.example
