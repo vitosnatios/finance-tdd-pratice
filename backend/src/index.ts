@@ -1,11 +1,16 @@
-import { Request, Response } from 'express';
 import express from 'express';
-const port = 3000;
+import Router from './router/routes';
+require('dotenv').config();
+import Database from './db/connect';
 const app = express();
+const port = Number(process.env.PORT) || 3000;
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello world!');
-});
+(async () => {
+  await Database.connect(process.env.MONGODB_URI as string);
+})();
+
+app.use(express.json());
+app.use('/api', Router);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
