@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsc & start tsc -w & start node --watch dist/index.js & start jest --watchAll"
+    "dev": "start jest --watchAll & start tsc -w"
   },
   "author": "",
   "license": "ISC",

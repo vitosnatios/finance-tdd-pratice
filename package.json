@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "code frontend backend & npm run dev --prefix frontend & npm run dev --prefix backend",
-    "install": "cd frontend & npm i & cd .. & cd backend & npm i & cd .. & npm run dev"
+    "dev": "npm run dev --prefix backend && npm run dev --prefix frontend && code --disable-extension Orta.vscode-jest frontend backend && cd backend && node --watch dist/index.js",
+    "install": "cd backend && npm i && npx tsc && cd .. && cd frontend && npm i && cd .. && npm run dev"
   }
 }

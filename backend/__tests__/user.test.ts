@@ -6,11 +6,11 @@ const bcrypt = require('bcrypt');
 const { Types } = require('mongoose');
 import AuthService from '../src/services/AuthService';
 
-(async () => {
-  await Database.connect(process.env.MONGODB_URI as string);
-})();
-
 describe('User schema/model', () => {
+  beforeAll(async () => {
+    await Database.connect(process.env.MONGODB_URI as string);
+  });
+
   const userData = {
     username: 'vitosnatios',
     email: 'vitosnatios@gmail.com',
@@ -18,6 +18,14 @@ describe('User schema/model', () => {
     firstName: 'Vitor',
     lastName: 'Fernandes',
   };
+
+  beforeEach(async () => {
+    await User.deleteOne({ username: userData.username });
+  });
+
+  afterAll(async () => {
+    await User.deleteOne({ username: userData.username });
+  });
 
   it('should compare a right and wrong password', async () => {
     const userObject = new User(userData);
@@ -30,7 +38,7 @@ describe('User schema/model', () => {
   });
 
   it(`should create from the api, get a 200 status and a jwt, then check the jwt`, async () => {
-    const res = await request(String(process.env.LOCAL_URL))
+    const res = await request('http://localhost:' + String(process.env.PORT))
       .post('/api/user/create')
       .send(userData)
       .set('Content-Type', 'application/json')
@@ -38,19 +46,19 @@ describe('User schema/model', () => {
       .expect(200);
     const validJwt = await AuthService.verifyToken(res.body.jwt);
     expect(validJwt).toBeTruthy();
-    await User.deleteOne({ _id: new Types.ObjectId(res.body.id) });
+    // await User.deleteOne({ _id: new Types.ObjectId(res.body.id) });
   });
 
   it('should create and get a error/message saying that some usarname already exists', async () => {
     const userObject = new User(userData);
     const user = await userObject.save();
-    const res = await request(String(process.env.LOCAL_URL))
+    const res = await request('http://localhost:' + String(process.env.PORT))
       .post('/api/user/create')
       .send(userData)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .expect(500);
-    await User.deleteOne({ _id: user._id });
+    // await User.deleteOne({ _id: user._id });
     expect(res.body.message).toBe(
       'E11000 duplicate key error collection: finance.users index: username_1 dup key: { username: "vitosnatios" }'
     );
@@ -59,11 +67,12 @@ describe('User schema/model', () => {
   it('should make login and check if there is a valid jwt and ok as response', async () => {
     const userObject = new User(userData);
     const user = await userObject.save();
-    const res = await request(String(process.env.LOCAL_URL))
+    const res = await request('http://localhost:' + String(process.env.PORT))
       .post('/api/user/login')
-      .send({ username: userData.username, password: userData.password });
-    await User.deleteOne({ _id: new Types.ObjectId(user.id) });
-    const validJwt = AuthService.verifyToken(res.body.jwt);
+      .send({ username: userData.username, password: userData.password })
+      .expect(200);
+    // await User.deleteOne({ _id: new Types.ObjectId(user.id) });
+    const validJwt = await AuthService.verifyToken(res.body.jwt);
     expect(validJwt).toBeTruthy();
   });
 });
