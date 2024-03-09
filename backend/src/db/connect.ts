@@ -7,9 +7,6 @@ class Database {
     if (!this.connection) {
       try {
         (this.connection as any) = await mongoose.connect(String(uri));
-        console.log(
-          `MongoDB connected: ${(this.connection as any).connection.host}`
-        );
       } catch (error) {
         console.error('Error connecting to MongoDB:', error);
       }

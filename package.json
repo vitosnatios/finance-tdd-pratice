@@ -1,6 +1,9 @@
 {
   "scripts": {
-    "dev": "npm run dev --prefix backend && npm run dev --prefix frontend && code --disable-extension Orta.vscode-jest frontend backend && cd backend && node --watch dist/index.js",
-    "install": "cd backend && npm i && npx tsc && cd .. && cd frontend && npm i && cd .. && npm run dev"
+    "dev": "concurrently \"code --disable-extension Orta.vscode-jest frontend backend & start npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "install": "npm i concurrently && cd backend && npm i && npx tsc & cd .. & cd frontend && npm i && cd .. && npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }
