@@ -1,5 +1,6 @@
 import express from 'express';
 import UserController from '../controllers/UserController';
+import AuthController from '../controllers/AuthController';
 
 class Router {
   private static router = express.Router();
@@ -11,7 +12,7 @@ class Router {
 
   private static initRoutes() {
     this.router.post('/user/create', UserController.create);
-    this.router.post('/user/login', UserController.login);
+    this.router.post('/user/login', AuthController.login);
   }
 }
 

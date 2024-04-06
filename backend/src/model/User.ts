@@ -1,5 +1,5 @@
 import { Document, Schema, model } from 'mongoose';
-import { AuthClass } from '../services/AuthService';
+import AuthClass from '../services/AuthService';
 
 export interface User extends Document {
   username: string;

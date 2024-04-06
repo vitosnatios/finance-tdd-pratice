@@ -2,17 +2,14 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 class AuthService {
-  private secret: string;
-  constructor(secret: string) {
-    this.secret = secret;
-  }
+  private static secret = String(process.env.JWT_SECRET);
 
-  async generateToken(userId: string) {
+  static async generateToken(userId: string) {
     const payload = { userId };
     return await jwt.sign(payload, this.secret, { expiresIn: '1h' });
   }
 
-  async verifyToken(token: string): Promise<string | null> {
+  static async verifyToken(token: string): Promise<string | null> {
     try {
       const decoded = jwt.verify(token, this.secret);
       return decoded.userId;
@@ -34,5 +31,4 @@ class AuthService {
   }
 }
 
-export default new AuthService(String(process.env.JWT_SECRET));
-export const AuthClass = AuthService;
+export default AuthService;
