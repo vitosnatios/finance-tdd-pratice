@@ -17,3 +17,5 @@ const port = Number(process.env.PORT) || 3000;
     console.log('Server error: ', error);
   }
 })();
+
+export default app;

@@ -1,21 +1,28 @@
 import * as mongoose from 'mongoose';
 
 class Database {
-  private connection: mongoose.Connection | undefined;
+  private static connection: mongoose.Connection | undefined;
 
-  async connect(uri: string): Promise<void> {
+  static async connect(
+    uri: string,
+    options?: mongoose.ConnectOptions,
+    mongoClient = mongoose
+  ): Promise<void> {
     if (!this.connection) {
       try {
-        (this.connection as any) = await mongoose.connect(String(uri));
+        (this.connection as any) = await mongoClient.connect(
+          String(uri),
+          options
+        );
       } catch (error) {
         console.error('Error connecting to MongoDB:', error);
       }
     }
   }
 
-  getConnection(): mongoose.Connection | undefined {
+  static getConnection(): mongoose.Connection | undefined {
     return this.connection;
   }
 }
 
-export default new Database();
+export default Database;

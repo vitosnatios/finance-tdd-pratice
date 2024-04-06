@@ -1,5 +1,5 @@
 import { Document, Schema, model } from 'mongoose';
-const bcrypt = require('bcrypt');
+import { AuthClass } from '../services/AuthService';
 
 export interface User extends Document {
   username: string;
@@ -21,8 +21,7 @@ export class UserSchema extends Schema<User> {
 
     this.pre('save', async function (next) {
       try {
-        const salt = await bcrypt.genSalt(12);
-        this.password = await bcrypt.hash(this.password, salt);
+        this.password = await AuthClass.encriptPassword(this.password);
         next();
       } catch (error) {
         console.error('Error hashing password:', error);
