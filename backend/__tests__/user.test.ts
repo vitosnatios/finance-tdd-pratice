@@ -41,11 +41,12 @@ describe('User schema/model', () => {
     });
     expect(status).toBe(200);
     expect(jwt).toBeDefined();
-    const getUserDataResponse = await MockServerRequest.post(
+    const { status: userStatus, user } = await MockServerRequest.post(
       UserController.getUserByItsJwtId,
-      jwt
+      { jwt }
     );
-    expect(getUserDataResponse.status).toBe(200);
-    expect(getUserDataResponse.user).toEqual({ ...rest, username });
+    expect(userStatus).toBe(200);
+    expect(user).toMatchObject({ ...rest, username });
+    expect(user.password).not.toBeDefined();
   });
 });
