@@ -1,9 +1,8 @@
 import User from '../src/model/User';
-import Database from '../src/db/connect';
-require('dotenv').config();
-import { MongoMemoryServer } from 'mongodb-memory-server';
 import MockServerRequest from '../mocks/MockServerRequest';
 import UserController from '../src/controllers/UserController';
+import MockDbConnection from '../mocks/MockDbConnection';
+import AuthController from '../src/controllers/AuthController';
 
 describe('User schema/model', () => {
   const userData = {
@@ -15,13 +14,11 @@ describe('User schema/model', () => {
   };
 
   beforeAll(async () => {
-    const mongoServer = await MongoMemoryServer.create();
-    await Database.connect(mongoServer.getUri());
-    await User.deleteOne({ username: userData.username });
+    await MockDbConnection.connect();
   });
 
-  afterEach(async () => {
-    await User.deleteOne({ username: userData.username });
+  afterAll(async () => {
+    await MockDbConnection.disconnect();
   });
 
   it('should create and get a error/message saying that some usarname already exists', async () => {
@@ -34,5 +31,21 @@ describe('User schema/model', () => {
     expect(controllerResponse.message).toContain(
       'index: username_1 dup key: { username: "vitosnatios'
     );
+  });
+
+  it('should login, receive a JWT from the body, validate it, get the user from the id inside the token', async () => {
+    const { username, password, ...rest } = userData;
+    const { status, jwt } = await MockServerRequest.post(AuthController.login, {
+      username,
+      password,
+    });
+    expect(status).toBe(200);
+    expect(jwt).toBeDefined();
+    const getUserDataResponse = await MockServerRequest.post(
+      UserController.getUserByItsJwtId,
+      jwt
+    );
+    expect(getUserDataResponse.status).toBe(200);
+    expect(getUserDataResponse.user).toEqual({ ...rest, username });
   });
 });

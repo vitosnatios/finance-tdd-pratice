@@ -1,10 +1,8 @@
 import User from '../src/model/User';
-import Database from '../src/db/connect';
-require('dotenv').config();
 import AuthService from '../src/services/AuthService';
-import { MongoMemoryServer } from 'mongodb-memory-server';
 import MockServerRequest from '../mocks/MockServerRequest';
 import AuthController from '../src/controllers/AuthController';
+import MockDbConnection from '../mocks/MockDbConnection';
 
 describe('Auth', () => {
   const userData = {
@@ -16,8 +14,7 @@ describe('Auth', () => {
   };
 
   beforeAll(async () => {
-    const mongoServer = await MongoMemoryServer.create();
-    await Database.connect(mongoServer.getUri());
+    await MockDbConnection.connect();
   });
 
   beforeEach(async () => {
@@ -25,7 +22,7 @@ describe('Auth', () => {
   });
 
   afterAll(async () => {
-    await User.deleteOne({ username: userData.username });
+    await MockDbConnection.disconnect();
   });
 
   it('should compare a right and wrong password', async () => {

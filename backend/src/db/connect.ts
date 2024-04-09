@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
 
 class Database {
+  private static mongoose = mongoose;
   private static connection: mongoose.Connection | undefined;
 
   static async connect(
@@ -22,6 +23,9 @@ class Database {
 
   static getConnection(): mongoose.Connection | undefined {
     return this.connection;
+  }
+  static getMongoose() {
+    return this.mongoose;
   }
 }
 
