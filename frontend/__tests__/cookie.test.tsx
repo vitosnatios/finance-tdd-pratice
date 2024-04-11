@@ -2,12 +2,13 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { setCookie, removeCookie, getCookie } from '../src/utils/cookie';
 
 describe('cookies', () => {
-  afterEach(() => {});
+  afterEach(() => {
+    removeCookie('test-cookie');
+  });
 
   it('should add a cookie', () => {
     setCookie('test-cookie', '123');
     expect(document.cookie).toBe('test-cookie=123');
-    console.log(document.cookie);
   });
 
   it('should add and then get the cookie', () => {

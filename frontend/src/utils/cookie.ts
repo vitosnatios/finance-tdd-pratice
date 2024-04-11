@@ -1,9 +1,13 @@
+import Cookies from 'js-cookie';
+
 export const setCookie = (field: string, value: string) => {
-  console.log(field, value);
+  Cookies.set(field, value);
 };
+
 export const getCookie = (field: string) => {
-  console.log(field);
+  return Cookies.get(field);
 };
+
 export const removeCookie = (field: string) => {
-  console.log(field);
+  Cookies.remove(field);
 };
