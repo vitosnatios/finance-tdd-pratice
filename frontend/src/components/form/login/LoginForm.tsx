@@ -4,13 +4,17 @@ import { Link } from 'react-router-dom';
 const LoginForm = ({
   handleFormSubmit,
 }: {
-  handleFormSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+  handleFormSubmit?: (e: FormEvent<HTMLFormElement>) => Promise<void>;
 }) => {
   const [loading, setLoading] = useState(false);
 
+  const handleLoginFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     setLoading(true);
-    await handleFormSubmit(e);
+    handleFormSubmit ? await handleFormSubmit(e) : handleLoginFormSubmit(e);
     setLoading(false);
   };
 
