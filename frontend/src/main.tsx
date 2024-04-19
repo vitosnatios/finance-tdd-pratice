@@ -5,11 +5,16 @@ import Login from './pages/Login.tsx';
 import Layout from './Layout.tsx';
 import './index.css';
 import CreateAccount from './pages/CreateAccount';
+import AuthContextProvider from './context/AuthContext.tsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />,
+    element: (
+      <AuthContextProvider>
+        <Layout />
+      </AuthContextProvider>
+    ),
     children: [
       {
         path: '',

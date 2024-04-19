@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
+import { removeCookie } from '../../../utils/cookie';
+import { useAuthContext } from '../../../context/useAuthContext';
+import { MouseEvent } from 'react';
 
-type Props = { authenticated: boolean };
+const NavLinks = () => {
+  const { setError, loading, data } = useAuthContext();
 
-const NavLinks = ({ authenticated }: Props) => {
   const loggedLinks = [
     { text: 'Add Expenses', to: '/add-expenses' },
     { text: 'View Expenses', to: '/view-expenses' },
@@ -15,22 +18,43 @@ const NavLinks = ({ authenticated }: Props) => {
     { text: 'Log In', to: '/login' },
     { text: 'Settings', to: '/settings' },
   ];
-  const linksToRender = authenticated ? loggedLinks : unloggedLinks;
+  const linksToRender = data ? loggedLinks : unloggedLinks;
 
   return (
     <nav aria-label='header-navbar'>
       <ul aria-label='header-links-list' className='flex space-x-4'>
-        {linksToRender.map(({ text, to }, i) => (
-          <li key={i} className='hover:text-gray-200 dark:hover:text-gray-400'>
-            <Link
-              aria-label='header-link'
-              to={to}
-              className='text-xl font-medium'
-            >
-              {text}
-            </Link>
-          </li>
-        ))}
+        {loading ? (
+          <>loading</>
+        ) : (
+          linksToRender.map(({ text, to }, i) => {
+            const logout = text === 'Logout';
+            const handleLogoutClick = logout
+              ? async (
+                  e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>
+                ) => {
+                  e.preventDefault();
+                  removeCookie('jwt');
+                  setError('');
+                }
+              : undefined;
+
+            return (
+              <li
+                key={i}
+                className='hover:text-gray-200 dark:hover:text-gray-400'
+              >
+                <Link
+                  aria-label='header-link'
+                  to={to}
+                  className='text-xl font-medium'
+                  onClick={handleLogoutClick}
+                >
+                  {text}
+                </Link>
+              </li>
+            );
+          })
+        )}
       </ul>
     </nav>
   );

@@ -1,7 +1,7 @@
 import { FormEvent } from 'react';
 import { useFetch } from './useFetch';
 import { setCookie } from '../utils/cookie';
-import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../context/useAuthContext';
 
 export default function useForm(
   form: { [keys: string]: string },
@@ -12,8 +12,7 @@ export default function useForm(
   >,
   endpoint: string
 ) {
-  const navigate = useNavigate();
-
+  const { authByJWT } = useAuthContext();
   const { loading, error, request, setError } = useFetch<{
     jwt: string;
   }>();
@@ -27,12 +26,12 @@ export default function useForm(
       method: 'POST',
       body: JSON.stringify(form),
       headers: {
-        'Content-type': 'application/json',
+        'Content-Type': 'application/json',
       },
     });
     if (!json) return setError('Something went wrong');
-    setCookie('jwt', json.jwt);
-    return navigate('/');
+    setCookie('jwt', String(json.jwt));
+    await authByJWT(json.jwt);
   };
 
   const handleInputChange = ({ currentTarget }: FormEvent<HTMLInputElement>) =>

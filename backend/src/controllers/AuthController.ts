@@ -28,7 +28,7 @@ class AuthController {
   static async auth(req: Request, res: Response) {
     try {
       const { jwt } = req.body;
-      if (!String(jwt).trim()) throw new Error('No JWT set');
+      if (!jwt || !String(jwt).trim()) throw new Error('No JWT set');
       const valid = await AuthService.verifyToken(jwt);
       if (!valid) throw new Error('Please, make login.');
       const user = await User.findById(valid, { password: 0 });

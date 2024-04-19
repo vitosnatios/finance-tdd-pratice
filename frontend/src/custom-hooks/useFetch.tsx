@@ -1,4 +1,4 @@
-import { Dispatch, useState } from 'react';
+import { Dispatch, useCallback, useState } from 'react';
 
 type IFetchType<T> = {
   data: null | T;
@@ -43,10 +43,10 @@ export async function fetchRequest<T>(
   }
 }
 
-export const useFetch = <T,>() => {
+export const useFetch = <T,>(loadingState: boolean = false) => {
   const [fetchState, setFetchState] = useState<IFetchType<T>>({
     data: null,
-    loading: false,
+    loading: loadingState,
     error: null,
   });
 
@@ -58,10 +58,17 @@ export const useFetch = <T,>() => {
     });
   };
 
-  const request = async (endpoint: string, options?: RequestInit) => {
-    return await fetchRequest<T>(endpoint, setFetchState, options);
-  };
+  const setLoad = useCallback((loadState: boolean) => {
+    setFetchState((p) => ({ ...p, loading: loadState }));
+  }, []);
+
+  const request = useCallback(
+    async (endpoint: string, options?: RequestInit) => {
+      return await fetchRequest<T>(endpoint, setFetchState, options);
+    },
+    []
+  );
 
   const { data, loading, error } = fetchState;
-  return { data, loading, error, request, setError };
+  return { data, loading, error, request, setError, setLoad };
 };

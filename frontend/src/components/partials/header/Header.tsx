@@ -6,7 +6,7 @@ const Header = () => {
     <header className='bg-gray-800'>
       <div className='text-white py-6 flex justify-between items-center max-w-screen-xl m-auto'>
         <Logo />
-        <NavLinks authenticated={false} />
+        <NavLinks />
       </div>
     </header>
   );
