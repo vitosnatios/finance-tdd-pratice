@@ -21,6 +21,7 @@ This project serves as a practice ground for mastering Test-Driven Development (
     PORT=<your_backend_port>
     MONGODB_URI=<your_mongodb_connection_string>
     JWT_SECRET=<your_jwt_secret_key>
+    CLIENT_URL=<the frontend url, ex: http://localhost:5173>
    ```
 
    **Important:**
@@ -28,6 +29,14 @@ This project serves as a practice ground for mastering Test-Driven Development (
    - `PORT`: The port number where your backend server will listen for requests (e.g., `PORT=3000`).
    - `MONGODB_URI`: The connection string for your MongoDB database (obtain from your MongoDB provider or local setup instructions).
    - `JWT_SECRET`: A strong, unique secret key used for signing JSON Web Tokens (JWTs) for authentication (refer to your authentication implementation for generation details).
+   - `CLIENT_URL`: For cors purposes.
+
+   - Now, navigate to the `/frontend` folder.
+   - Create a new file named `.env.local` in this folder.
+
+   ```
+    VITE_SERVER_URL=<your backend api url, ex: http://localhost:3000>
+   ```
 
 2. **Install Dependencies:**
 
