@@ -5,6 +5,11 @@ import { useNavigate } from 'react-router-dom';
 
 export default function useForm(
   form: { [keys: string]: string },
+  setForm: React.Dispatch<
+    React.SetStateAction<{
+      [key: string]: string;
+    }>
+  >,
   endpoint: string
 ) {
   const navigate = useNavigate();
@@ -30,5 +35,8 @@ export default function useForm(
     return navigate('/');
   };
 
-  return { loading, error, handleSubmit };
+  const handleInputChange = ({ currentTarget }: FormEvent<HTMLInputElement>) =>
+    setForm((p) => ({ ...p, [currentTarget.id]: currentTarget.value }));
+
+  return { loading, error, handleSubmit, handleInputChange };
 }

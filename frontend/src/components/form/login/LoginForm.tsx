@@ -6,7 +6,6 @@ import Button from '../Button';
 import StyledLink from '../../text/StyledLink';
 import Error from '../../text/Error';
 import Title from '../../text/Title';
-import { handleInputChange } from '../../../utils/authFormUtils';
 import useForm from '../../../custom-hooks/useAuthForm';
 
 const LoginForm = () => {
@@ -15,7 +14,11 @@ const LoginForm = () => {
     password: '',
   });
 
-  const { loading, error, handleSubmit } = useForm(form, '/api/user/login');
+  const { loading, error, handleSubmit, handleInputChange } = useForm(
+    form,
+    setForm,
+    '/api/user/login'
+  );
 
   return (
     <FormComponent onSubmit={handleSubmit} aria-label='login-form'>
@@ -23,7 +26,7 @@ const LoginForm = () => {
       <Label htmlFor='username'>
         Username
         <Input
-          onChange={(e) => handleInputChange(e, 'username', setForm)}
+          onChange={handleInputChange}
           value={form.username}
           id='username'
           type='text'
@@ -32,7 +35,7 @@ const LoginForm = () => {
       <Label htmlFor='password'>
         Password
         <Input
-          onChange={(e) => handleInputChange(e, 'password', setForm)}
+          onChange={handleInputChange}
           value={form.password}
           id='password'
           type='password'

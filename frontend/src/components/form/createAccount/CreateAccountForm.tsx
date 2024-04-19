@@ -6,7 +6,6 @@ import Label from '../Label';
 import Button from '../Button';
 import StyledLink from '../../text/StyledLink';
 import Error from '../../text/Error';
-import { handleInputChange } from '../../../utils/authFormUtils';
 import useForm from '../../../custom-hooks/useAuthForm';
 
 const Form = () => {
@@ -18,7 +17,11 @@ const Form = () => {
     password: '',
   });
 
-  const { loading, error, handleSubmit } = useForm(form, '/api/user/create');
+  const { loading, error, handleSubmit, handleInputChange } = useForm(
+    form,
+    setForm,
+    '/api/user/create'
+  );
 
   return (
     <FormComponent onSubmit={handleSubmit} aria-label='login-form'>
@@ -26,7 +29,7 @@ const Form = () => {
       <Label htmlFor='username'>
         Username
         <Input
-          onChange={(e) => handleInputChange(e, 'username', setForm)}
+          onChange={handleInputChange}
           value={form.username}
           id='username'
           type='text'
@@ -35,7 +38,7 @@ const Form = () => {
       <Label htmlFor='email'>
         Email
         <Input
-          onChange={(e) => handleInputChange(e, 'email', setForm)}
+          onChange={handleInputChange}
           value={form.email}
           id='email'
           type='email'
@@ -45,7 +48,7 @@ const Form = () => {
       <Label htmlFor='firstName'>
         First Name
         <Input
-          onChange={(e) => handleInputChange(e, 'firstName', setForm)}
+          onChange={handleInputChange}
           value={form.firstName}
           id='firstName'
           type='text'
@@ -55,7 +58,7 @@ const Form = () => {
       <Label htmlFor='lastName'>
         Last Name
         <Input
-          onChange={(e) => handleInputChange(e, 'lastName', setForm)}
+          onChange={handleInputChange}
           value={form.lastName}
           id='lastName'
           type='text'
@@ -65,7 +68,7 @@ const Form = () => {
       <Label htmlFor='password'>
         Password
         <Input
-          onChange={(e) => handleInputChange(e, 'password', setForm)}
+          onChange={handleInputChange}
           value={form.password}
           id='password'
           type='password'
