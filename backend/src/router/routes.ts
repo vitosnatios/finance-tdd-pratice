@@ -13,7 +13,7 @@ class Router {
   private static initRoutes() {
     this.router.post('/user/create', UserController.create);
     this.router.post('/user/login', AuthController.login);
-    this.router.post('/user/get-by-jwt-id', UserController.getUserByItsJwtId);
+    this.router.post('/auth/jwt', AuthController.auth);
   }
 }
 

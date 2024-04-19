@@ -1,8 +1,7 @@
 import User from '../src/model/User';
-import MockServerRequest from '../mocks/MockServerRequest';
+import MockServerRequest from '../__mocks__/MockServerRequest';
 import UserController from '../src/controllers/UserController';
-import MockDbConnection from '../mocks/MockDbConnection';
-import AuthController from '../src/controllers/AuthController';
+import MockDbConnection from '../__mocks__/MockDbConnection';
 
 describe('User schema/model', () => {
   const userData = {
@@ -22,7 +21,8 @@ describe('User schema/model', () => {
   });
 
   it('should create and get a error/message saying that some usarname already exists', async () => {
-    await new User(userData).save();
+    const newUser = await new User(userData).save();
+    expect(newUser.email).toBe(userData.email);
     const controllerResponse = await MockServerRequest.post(
       UserController.create,
       userData
@@ -31,22 +31,5 @@ describe('User schema/model', () => {
     expect(controllerResponse.message).toContain(
       'index: username_1 dup key: { username: "vitosnatios'
     );
-  });
-
-  it('should login, receive a JWT from the body, validate it, get the user from the id inside the token', async () => {
-    const { username, password, ...rest } = userData;
-    const { status, jwt } = await MockServerRequest.post(AuthController.login, {
-      username,
-      password,
-    });
-    expect(status).toBe(200);
-    expect(jwt).toBeDefined();
-    const { status: userStatus, user } = await MockServerRequest.post(
-      UserController.getUserByItsJwtId,
-      { jwt }
-    );
-    expect(userStatus).toBe(200);
-    expect(user).toMatchObject({ ...rest, username });
-    expect(user.password).not.toBeDefined();
   });
 });

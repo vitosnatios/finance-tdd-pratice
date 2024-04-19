@@ -1,8 +1,9 @@
 import User from '../src/model/User';
 import AuthService from '../src/services/AuthService';
-import MockServerRequest from '../mocks/MockServerRequest';
+import MockServerRequest from '../__mocks__/MockServerRequest';
 import AuthController from '../src/controllers/AuthController';
-import MockDbConnection from '../mocks/MockDbConnection';
+import UserController from '../src/controllers/UserController';
+import MockDbConnection from '../__mocks__/MockDbConnection';
 
 describe('Auth', () => {
   const userData = {
@@ -39,12 +40,12 @@ describe('Auth', () => {
     expect(wrongPassword).toBeFalsy();
   });
 
-  it('should create a user and use its id to create a jwt, then check the jwt', async () => {
-    const newUser = await new User(userData).save();
-    const jwt = await AuthService.generateToken(String(newUser.id));
+  it('should create a jwt and check it', async () => {
+    const mockedId = '1234567890';
+    const jwt = await AuthService.generateToken(String(mockedId));
     const validJwt = await AuthService.verifyToken(jwt);
     expect(validJwt).toBeTruthy();
-    expect(validJwt).toBe(String(newUser.id));
+    expect(validJwt).toBe(String(mockedId));
   });
 
   it('should make login and check if there is a valid jwt and ok as response', async () => {
@@ -57,5 +58,28 @@ describe('Auth', () => {
     const validJwt = await AuthService.verifyToken(controllerResponse.jwt);
     expect(controllerResponse.status).toBe(200);
     expect(validJwt).toBeTruthy();
+  });
+
+  it('should receive a invalid jwt and respond with an error', async () => {
+    const controllerResponse = await MockServerRequest.post(
+      AuthController.auth,
+      { jwt: 'invalid-jwt' }
+    );
+    expect(controllerResponse.status).toBe(401);
+    expect(controllerResponse.message).toBe('Please, make login.');
+  });
+
+  it('should receive a valid jwt and respond with the user data', async () => {
+    const userControllerResponse = await MockServerRequest.post(
+      UserController.create,
+      { ...userData }
+    );
+    const { jwt } = userControllerResponse;
+    const { status, user } = await MockServerRequest.post(AuthController.auth, {
+      jwt,
+    });
+    expect(status).toBe(200);
+    expect(user.email).toBe(userData.email);
+    expect(user.password).toBeUndefined();
   });
 });

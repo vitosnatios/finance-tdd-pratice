@@ -24,6 +24,23 @@ class AuthController {
       });
     }
   }
+
+  static async auth(req: Request, res: Response) {
+    try {
+      const { jwt } = req.body;
+      if (!String(jwt).trim()) throw new Error('No JWT set');
+      const valid = await AuthService.verifyToken(jwt);
+      if (!valid) throw new Error('Please, make login.');
+      const user = await User.findById(valid, { password: 0 });
+      if (!user) throw new Error('Please, make login.');
+      return res.status(200).json({ user });
+    } catch (error) {
+      return res.status(401).json({
+        message:
+          error instanceof Error ? error.message : 'Internal server error',
+      });
+    }
+  }
 }
 
 export default AuthController;
