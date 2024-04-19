@@ -2,7 +2,7 @@ import { HTMLProps, PropsWithChildren } from 'react';
 
 const FormComponent = ({
   children,
-  className,
+  className = '',
   ...props
 }: PropsWithChildren<HTMLProps<HTMLFormElement>>) => {
   return (

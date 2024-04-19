@@ -3,9 +3,11 @@ import NavLinks from './NavLinks';
 
 const Header = () => {
   return (
-    <header className='bg-gray-800 text-white px-4 py-6 flex justify-between items-center'>
-      <Logo />
-      <NavLinks authenticated={false} />
+    <header className='bg-gray-800'>
+      <div className='text-white py-6 flex justify-between items-center max-w-screen-xl m-auto'>
+        <Logo />
+        <NavLinks authenticated={false} />
+      </div>
     </header>
   );
 };
