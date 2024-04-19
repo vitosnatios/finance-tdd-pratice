@@ -6,6 +6,8 @@ class AuthController {
   static async login(req: Request, res: Response) {
     const { username, password } = req.body;
     try {
+      if (!username.trim() || !password.trim())
+        throw new Error('Please, fill all the fields');
       const user = await User.findOne({ username });
       if (!user) throw new Error('Invalid username or password');
       const isPasswordValid = await AuthService.comparePasswords(

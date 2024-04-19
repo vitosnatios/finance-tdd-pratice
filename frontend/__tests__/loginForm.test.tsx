@@ -1,26 +1,30 @@
 import React from 'react';
-import { beforeAll, describe, expect, it, vitest } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 import LoginForm from './../src/components/form/login/LoginForm';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { getCookie } from '../src/utils/cookie';
 
 describe('login form', () => {
-  const handleSubmitMock = vitest.fn((e) => e.preventDefault());
+  let usernameInput, passwordInput, submitButton;
+
   beforeAll(() => {
     render(
       <BrowserRouter>
-        <LoginForm handleFormSubmit={handleSubmitMock} />
+        <LoginForm />
       </BrowserRouter>
     );
   });
 
-  it('should be have a form with a onsubmit mock', () => {
+  it('should be have a form with a login title', () => {
     screen.getByRole('form', { name: 'login-form' });
+    const title = screen.getByRole('heading', { name: 'login-title' });
+    expect(title.textContent).toBe('Login');
   });
 
   it('should render username and password inputs and both inputs should have a label', () => {
-    const usernameInput = screen.getByLabelText('Username');
-    const passwordInput = screen.getByLabelText('Password');
+    usernameInput = screen.getByLabelText('Username');
+    passwordInput = screen.getByLabelText('Password');
     expect(usernameInput).toHaveProperty('type', 'text');
     expect(passwordInput).toHaveProperty('type', 'password');
   });
@@ -37,11 +41,32 @@ describe('login form', () => {
     );
   });
 
-  it('should render a "Login" submit button and set its text to "Loading" on click', () => {
-    const submitButton = screen.getByRole('button', { name: 'submit-login' });
+  it('should find a "Login" submit button and a error, and then set its error text to "Please, fill all the fields" on click', async () => {
+    submitButton = screen.getByRole('button', { name: 'submit-login' });
     expect(submitButton).toHaveProperty('type', 'submit');
     fireEvent.click(submitButton);
-    expect(handleSubmitMock).toHaveBeenCalled();
-    expect(submitButton.textContent).toBe('Loading');
+    screen.getByText('Please, fill all the fields');
+  });
+
+  it('should simulate form submission, send credentials to fetch, and store JWT in cookie', async () => {
+    const jwt = 'jwt-test';
+    const fetchMock = vi.fn(() =>
+      Promise.resolve(
+        new Response(JSON.stringify({ jwt }), {
+          status: 200,
+        })
+      )
+    );
+    globalThis.fetch = fetchMock;
+
+    fireEvent.change(usernameInput, { target: { value: 'asd' } });
+    fireEvent.change(passwordInput, { target: { value: 'asd' } });
+    fireEvent.click(submitButton);
+
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(fetchMock).toHaveBeenCalled();
+
+    const jwtCookie = getCookie('jwt');
+    expect(jwtCookie).toBe(jwt);
   });
 });

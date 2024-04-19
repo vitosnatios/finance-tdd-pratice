@@ -1,39 +1,76 @@
 import { FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import FormComponent from '../FormComponent';
+import Label from '../Label';
+import Input from '../Input';
+import Button from '../Button';
+import StyledLink from '../../text/StyledLink';
+import { useFetch } from '../../../custom-hooks/useFetch';
+import Error from '../../text/Error';
+import { setCookie } from '../../../utils/cookie';
+import Title from '../../text/Title';
 
-const LoginForm = ({
-  handleFormSubmit,
-}: {
-  handleFormSubmit?: (e: FormEvent<HTMLFormElement>) => Promise<void>;
-}) => {
-  const [loading, setLoading] = useState(false);
+const LoginForm = () => {
+  const [form, setForm] = useState<{ username: string; password: string }>({
+    username: '',
+    password: '',
+  });
 
-  const handleLoginFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
+  const { loading, error, request, setError } = useFetch<{
+    jwt: string;
+  }>();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    setLoading(true);
-    handleFormSubmit ? await handleFormSubmit(e) : handleLoginFormSubmit(e);
-    setLoading(false);
+    e.preventDefault();
+    const { username, password } = form;
+    if (!username.trim() || !password.trim())
+      return setError('Please, fill all the fields');
+    const json = await request('/api/user/login', {
+      method: 'POST',
+      body: JSON.stringify({ username, password }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+
+    if (json) setCookie('jwt', json.jwt);
   };
 
-  return (
-    <form onSubmit={handleSubmit} aria-label='login-form'>
-      <label htmlFor='username'>Username</label>
-      <input id='username' type='text' />
-      <label htmlFor='password'>Password</label>
-      <input id='password' type='password' />
+  const handleInputChange = (
+    { currentTarget }: FormEvent<HTMLInputElement>,
+    field: string
+  ) => setForm((p) => ({ ...p, [field]: currentTarget.value }));
 
-      <div>
-        <button type='submit' aria-label='submit-login'>
+  return (
+    <FormComponent onSubmit={handleSubmit} aria-label='login-form'>
+      <Title aria-label='login-title'>Login</Title>
+      <Label htmlFor='username'>
+        Username
+        <Input
+          onChange={(e) => handleInputChange(e, 'username')}
+          value={form.username}
+          id='username'
+          type='text'
+        />
+      </Label>
+      <Label htmlFor='password'>
+        Password
+        <Input
+          onChange={(e) => handleInputChange(e, 'password')}
+          value={form.password}
+          id='password'
+          type='password'
+        />
+      </Label>
+      <div className='flex flex-col-reverse gap-4 sm:flex-row items-center justify-between'>
+        <Button type='submit' aria-label='submit-login'>
           {loading ? 'Loading' : 'Login'}
-        </button>
-        <Link to='/create-account' aria-label='create-account-link'>
+        </Button>
+        <StyledLink to='/create-account' aria-label='create-account-link'>
           New here? Create a new account!
-        </Link>
+        </StyledLink>
       </div>
-    </form>
+      {error && <Error>{error}</Error>}
+    </FormComponent>
   );
 };
 
