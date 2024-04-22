@@ -18,7 +18,7 @@ describe('login form', () => {
 
   it('should be have a form with a login title', () => {
     screen.getByRole('form', { name: 'login-form' });
-    const title = screen.getByRole('heading', { name: 'login-title' });
+    const title = screen.getByRole('heading', { name: 'form-title' });
     expect(title.textContent).toBe('Login');
   });
 
@@ -31,7 +31,7 @@ describe('login form', () => {
 
   it('should have a "New here? Create a new account!" link to /create-account', () => {
     const createAccountLink = screen.getByRole('link', {
-      name: 'create-account-link',
+      name: 'form-link',
     });
     expect(createAccountLink.textContent).toBe(
       'New here? Create a new account!'
@@ -42,7 +42,7 @@ describe('login form', () => {
   });
 
   it('should find a "Login" submit button and a error, and then set its error text to "Please, fill all the fields" on click', async () => {
-    submitButton = screen.getByRole('button', { name: 'submit-login' });
+    submitButton = screen.getByRole('button', { name: 'submit-button' });
     expect(submitButton).toHaveProperty('type', 'submit');
     fireEvent.click(submitButton);
     screen.getByText('Please, fill all the fields');

@@ -1,12 +1,8 @@
 import { useState } from 'react';
-import Title from '../../text/Title';
-import FormComponent from '../FormComponent';
 import Input from '../Input';
 import Label from '../Label';
-import Button from '../Button';
-import StyledLink from '../../text/StyledLink';
-import Error from '../../text/Error';
 import useForm from '../../../custom-hooks/useAuthForm';
+import FormStructure from '../FormStructure';
 
 const Form = () => {
   const [form, setForm] = useState<{ [key: string]: string }>({
@@ -24,8 +20,15 @@ const Form = () => {
   );
 
   return (
-    <FormComponent onSubmit={handleSubmit} aria-label='login-form'>
-      <Title aria-label='create-account-title'>Create Your Account</Title>
+    <FormStructure
+      loading={loading}
+      error={error}
+      title='Create Your Account'
+      handleSubmit={handleSubmit}
+      buttonText='Create'
+      linkText='Already Registered? Make Login!'
+      linkUrl='/login'
+    >
       <Label htmlFor='username'>
         Username
         <Input
@@ -44,7 +47,6 @@ const Form = () => {
           type='email'
         />
       </Label>
-
       <Label htmlFor='firstName'>
         First Name
         <Input
@@ -54,7 +56,6 @@ const Form = () => {
           type='text'
         />
       </Label>
-
       <Label htmlFor='lastName'>
         Last Name
         <Input
@@ -64,7 +65,6 @@ const Form = () => {
           type='text'
         />
       </Label>
-
       <Label htmlFor='password'>
         Password
         <Input
@@ -74,19 +74,7 @@ const Form = () => {
           type='password'
         />
       </Label>
-      <div className='flex flex-col-reverse gap-4 sm:flex-row items-center justify-between'>
-        <Button
-          type={`${loading ? 'button' : 'submit'}`}
-          aria-label='submit-create'
-        >
-          {loading ? 'Loading' : 'Login'}
-        </Button>
-        <StyledLink to='/login' aria-label='make-login-link'>
-          Already Registered? Make Login!
-        </StyledLink>
-      </div>
-      {error && <Error>{error}</Error>}
-    </FormComponent>
+    </FormStructure>
   );
 };
 

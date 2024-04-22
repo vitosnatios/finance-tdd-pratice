@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { removeCookie } from '../../../utils/cookie';
 import { useAuthContext } from '../../../context/useAuthContext';
 import { MouseEvent } from 'react';
+import { PacmanLoader } from 'react-spinners';
 
 const NavLinks = () => {
   const { setError, loading, data } = useAuthContext();
@@ -24,7 +25,7 @@ const NavLinks = () => {
     <nav aria-label='header-navbar'>
       <ul aria-label='header-links-list' className='flex space-x-4'>
         {loading ? (
-          <>loading</>
+          <PacmanLoader color='#3b82f6' size='18' />
         ) : (
           linksToRender.map(({ text, to }, i) => {
             const logout = text === 'Logout';
