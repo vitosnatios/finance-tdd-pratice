@@ -8,7 +8,7 @@ import Settings from './pages/Settings';
 import AddExpenses from './pages/AddExpenses';
 import ViewExpenses from './pages/ViewExpenses';
 
-export const routes: {
+const children: {
   path: string;
   element: JSX.Element;
 }[] = [
@@ -46,8 +46,9 @@ const router = createBrowserRouter([
         <Layout />
       </AuthContextProvider>
     ),
-    children: routes,
+    children,
   },
 ]);
 
+export const routes = children;
 export default router;
