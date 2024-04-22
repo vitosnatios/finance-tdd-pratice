@@ -10,7 +10,7 @@ const Layout = () => {
     <div className='flex flex-col min-h-screen'>
       <Header />
       <div className='flex-grow p-4 m-auto max-w-screen-xl'>
-        {loading ? <ClipLoader color='#3b82f6' size='200' /> : <Outlet />}
+        {loading ? <ClipLoader color='#3b82f6' size='200px' /> : <Outlet />}
       </div>
       <Footer />
     </div>

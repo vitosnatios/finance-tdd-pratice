@@ -25,7 +25,7 @@ const NavLinks = () => {
     <nav aria-label='header-navbar'>
       <ul aria-label='header-links-list' className='flex space-x-4'>
         {loading ? (
-          <PacmanLoader color='#3b82f6' size='18' />
+          <PacmanLoader color='#3b82f6' size='18px' />
         ) : (
           linksToRender.map(({ text, to }, i) => {
             const logout = text === 'Logout';
