@@ -27,7 +27,7 @@ describe('Auth', () => {
   });
 
   it('should compare a right and wrong password', async () => {
-    const user = await new User(userData).save();
+    const user = await User.create(userData);
     const samePassword = await AuthService.comparePasswords(
       'bacon&banana',
       user.password

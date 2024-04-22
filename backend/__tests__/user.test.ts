@@ -21,7 +21,7 @@ describe('User schema/model', () => {
   });
 
   it('should create and get a error/message saying that some usarname already exists', async () => {
-    const newUser = await new User(userData).save();
+    const newUser = await User.create(userData);
     expect(newUser.email).toBe(userData.email);
     const controllerResponse = await MockServerRequest.post(
       UserController.create,

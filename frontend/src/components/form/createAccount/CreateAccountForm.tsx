@@ -75,7 +75,10 @@ const Form = () => {
         />
       </Label>
       <div className='flex flex-col-reverse gap-4 sm:flex-row items-center justify-between'>
-        <Button type='submit' aria-label='submit-create'>
+        <Button
+          type={`${loading ? 'button' : 'submit'}`}
+          aria-label='submit-create'
+        >
           {loading ? 'Loading' : 'Login'}
         </Button>
         <StyledLink to='/login' aria-label='make-login-link'>

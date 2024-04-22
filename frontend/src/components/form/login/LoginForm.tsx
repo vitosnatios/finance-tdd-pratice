@@ -42,7 +42,10 @@ const LoginForm = () => {
         />
       </Label>
       <div className='flex flex-col-reverse gap-4 sm:flex-row items-center justify-between'>
-        <Button type='submit' aria-label='submit-login'>
+        <Button
+          type={`${loading ? 'button' : 'submit'}`}
+          aria-label='submit-login'
+        >
           {loading ? 'Loading' : 'Login'}
         </Button>
         <StyledLink to='/create-account' aria-label='create-account-link'>

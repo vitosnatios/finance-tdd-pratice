@@ -6,6 +6,7 @@ import Layout from './Layout.tsx';
 import './index.css';
 import CreateAccount from './pages/CreateAccount';
 import AuthContextProvider from './context/AuthContext.tsx';
+import Home from './pages/Home.tsx';
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <>home</>,
+        element: <Home />,
       },
       {
         path: 'login',
