@@ -5,13 +5,13 @@ describe('expense model tests', () => {
   const expectedProperties = [
     { key: 'category', type: 'string' },
     { key: 'quantity', type: 'number' },
-    { key: 'date', type: 'Date' },
+    { key: 'date', type: 'string' },
   ];
 
   const mockedExpense = {
     category: 'Food',
     quantity: 1,
-    date: new Date().getDate(),
+    date: new Date(),
   };
 
   beforeAll(async () => {

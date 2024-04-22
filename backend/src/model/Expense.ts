@@ -3,7 +3,7 @@ import { Document, Schema, model } from 'mongoose';
 export interface Expense extends Document {
   category: string;
   quantity: Number;
-  date: Date;
+  date: string;
 }
 
 export class ExpenseSchema extends Schema<Expense> {
@@ -11,7 +11,16 @@ export class ExpenseSchema extends Schema<Expense> {
     super({
       category: { type: String, required: true },
       quantity: { type: Number, required: true },
-      date: { type: Date, required: true },
+      date: { type: String, required: true },
+    });
+
+    this.pre('save', async function (next) {
+      try {
+        this.date = String(this.date);
+        next();
+      } catch (error) {
+        console.error('Error parsing the:', error);
+      }
     });
   }
 }
