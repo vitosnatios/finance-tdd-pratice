@@ -1,12 +1,13 @@
 import MockDbConnection from '../__mocks__/MockDbConnection';
 import MockServerRequest from '../__mocks__/MockServerRequest';
+import AuthService from '../src/services/AuthService';
 import ExpenseController from './../src/controllers/ExpenseController';
 
 describe('ExpenseController', () => {
   const mockedExpense = {
+    userId: '123abc',
     category: 'Food',
-    quantity: 1,
-    date: new Date(),
+    price: 1,
   };
 
   beforeAll(async () => {
@@ -17,23 +18,26 @@ describe('ExpenseController', () => {
     await MockDbConnection.disconnect();
   });
 
-  it('should give the error "Some internal error."', async () => {
+  it('should give the error "You need to log in."', async () => {
     const { message, status } = await MockServerRequest.post(
       ExpenseController.create,
       {}
     );
     expect(status).toBe(500);
-    expect(message).toBe('Some internal error.');
+    expect(message).toBe('You need to log in.');
   });
 
   it('should test the create method', async () => {
     const { expense, status } = await MockServerRequest.post(
       ExpenseController.create,
-      { expense: mockedExpense }
+      {
+        expense: mockedExpense,
+        jwt: await AuthService.generateToken('valid-jwt'),
+      }
     );
     expect(status).toBe(200);
+    expect(expense.userId).toBe(mockedExpense.userId);
     expect(expense.category).toBe(mockedExpense.category);
-    expect(expense.quantity).toBe(mockedExpense.quantity);
-    expect(expense.date).toBe(String(mockedExpense.date));
+    expect(expense.price).toBe(mockedExpense.price);
   });
 });

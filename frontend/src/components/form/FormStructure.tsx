@@ -11,9 +11,10 @@ type Props = {
   title: string;
   error: string | null;
   buttonText: string;
-  linkText: string;
-  linkUrl: string;
+  linkText?: string;
+  linkUrl?: string;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  className?: string | undefined;
 };
 
 const FormStructure = ({
@@ -25,9 +26,14 @@ const FormStructure = ({
   linkText,
   linkUrl,
   handleSubmit,
+  className,
 }: PropsWithChildren<Props>) => {
   return (
-    <FormComponent onSubmit={handleSubmit} aria-label='login-form'>
+    <FormComponent
+      onSubmit={handleSubmit}
+      aria-label='form'
+      className={className}
+    >
       <Title aria-label='form-title'>{title}</Title>
       {children}
       <div className='flex flex-col-reverse gap-4 sm:flex-row items-center justify-between'>
@@ -38,9 +44,11 @@ const FormStructure = ({
             {buttonText}
           </Button>
         )}
-        <StyledLink to={linkUrl} aria-label='form-link'>
-          {linkText}
-        </StyledLink>
+        {linkUrl && linkText && (
+          <StyledLink to={linkUrl} aria-label='form-link'>
+            {linkText}
+          </StyledLink>
+        )}
       </div>
       {error && <Error>{error}</Error>}
     </FormComponent>

@@ -1,16 +1,18 @@
 import { Document, Schema, model } from 'mongoose';
 
 export interface Expense extends Document {
+  userId: string;
   category: string;
-  quantity: Number;
+  price: Number;
   date: string;
 }
 
 export class ExpenseSchema extends Schema<Expense> {
   constructor() {
     super({
+      userId: { type: String, required: true },
       category: { type: String, required: true },
-      quantity: { type: Number, required: true },
+      price: { type: Number, required: true },
       date: { type: String, required: true },
     });
 

@@ -3,15 +3,17 @@ import MockDbConnection from './../__mocks__/MockDbConnection';
 
 describe('expense model tests', () => {
   const expectedProperties = [
+    { key: 'userId', type: 'string' },
     { key: 'category', type: 'string' },
-    { key: 'quantity', type: 'number' },
+    { key: 'price', type: 'number' },
     { key: 'date', type: 'string' },
   ];
 
   const mockedExpense = {
+    userId: '123abc',
     category: 'Food',
-    quantity: 1,
-    date: new Date(),
+    price: 1,
+    date: String(new Date()),
   };
 
   beforeAll(async () => {

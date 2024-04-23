@@ -11,7 +11,7 @@ class AuthService {
 
   static async verifyToken(token: string): Promise<string | null> {
     try {
-      const decoded = jwt.verify(token, this.secret);
+      const decoded = await jwt.verify(token, this.secret);
       return decoded.userId;
     } catch (error) {
       return null;

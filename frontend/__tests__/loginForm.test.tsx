@@ -17,7 +17,7 @@ describe('login form', () => {
   });
 
   it('should be have a form with a login title', () => {
-    screen.getByRole('form', { name: 'login-form' });
+    screen.getByRole('form', { name: 'form' });
     const title = screen.getByRole('heading', { name: 'form-title' });
     expect(title.textContent).toBe('Login');
   });

@@ -1,0 +1,54 @@
+import React from 'react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
+import AddExpenses from './../src/pages/AddExpenses';
+
+describe('add-expenses page test', () => {
+  let submitButton, categoryInput, priceInput;
+  beforeAll(() => {
+    render(<AddExpenses />);
+  });
+
+  it('should have a "Add a new expense" title', () => {
+    const title = screen.getByRole('heading', { name: 'form-title' });
+    expect(title.textContent).toBe('Add a new Expense');
+  });
+
+  it('should have a form', () => {
+    screen.getByRole('form', { name: 'form' });
+    submitButton = screen.getByRole('button', { name: 'submit-button' });
+  });
+
+  it('should have a submit button and check for every input to be filled', () => {
+    expect(submitButton).toHaveProperty('type', 'submit');
+    fireEvent.click(submitButton);
+    screen.getByText('Please, fill all the fields');
+  });
+
+  it('should have a Category and Quantity inputs', () => {
+    categoryInput = screen.getByLabelText('Category');
+    priceInput = screen.getByLabelText('Price');
+    expect(categoryInput).toHaveProperty('type', 'text');
+    expect(priceInput).toHaveProperty('type', 'number');
+  });
+
+  it('should redirect to "/view-expenses" after getting a 200 response', async () => {
+    const fetchMock = vi.fn(() =>
+      Promise.resolve(
+        new Response(JSON.stringify({ expense: {} }), {
+          status: 200,
+        })
+      )
+    );
+    globalThis.fetch = fetchMock;
+
+    fireEvent.change(categoryInput, { target: { value: 'Food' } });
+    fireEvent.change(priceInput, { target: { value: '3' } });
+    fireEvent.click(submitButton);
+
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(fetchMock).toHaveBeenCalled();
+
+    // console.log(window.);
+  });
+});

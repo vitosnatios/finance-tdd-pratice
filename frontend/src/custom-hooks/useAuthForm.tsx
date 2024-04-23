@@ -32,6 +32,7 @@ export default function useForm(
     if (!json) return setError('Something went wrong');
     setCookie('jwt', String(json.jwt));
     await authByJWT(json.jwt);
+    return;
   };
 
   const handleInputChange = ({ currentTarget }: FormEvent<HTMLInputElement>) =>
