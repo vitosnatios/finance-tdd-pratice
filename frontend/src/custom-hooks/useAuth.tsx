@@ -55,9 +55,9 @@ const useAuth = (
         removeCookie('jwt');
         return;
       }
-
       if (isntAPublicPath(location.pathname)) return;
       navigate('/');
+      return;
     },
     [request, navigate, setLoad, navigateIfPathnameIsPrivate, isntAPublicPath]
   );
