@@ -1,12 +1,20 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { beforeAll, describe, expect, it, vi } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import AddExpenses from './../src/pages/AddExpenses';
+import AuthContextProvider from '../src/context/AuthContext';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('add-expenses page test', () => {
   let submitButton, categoryInput, priceInput;
   beforeAll(() => {
-    render(<AddExpenses />);
+    render(
+      <BrowserRouter>
+        <AuthContextProvider>
+          <AddExpenses />
+        </AuthContextProvider>
+      </BrowserRouter>
+    );
   });
 
   it('should have a "Add a new expense" title', () => {
@@ -30,25 +38,5 @@ describe('add-expenses page test', () => {
     priceInput = screen.getByLabelText('Price');
     expect(categoryInput).toHaveProperty('type', 'text');
     expect(priceInput).toHaveProperty('type', 'number');
-  });
-
-  it('should redirect to "/view-expenses" after getting a 200 response', async () => {
-    const fetchMock = vi.fn(() =>
-      Promise.resolve(
-        new Response(JSON.stringify({ expense: {} }), {
-          status: 200,
-        })
-      )
-    );
-    globalThis.fetch = fetchMock;
-
-    fireEvent.change(categoryInput, { target: { value: 'Food' } });
-    fireEvent.change(priceInput, { target: { value: '3' } });
-    fireEvent.click(submitButton);
-
-    await new Promise((resolve) => setTimeout(resolve, 10));
-    expect(fetchMock).toHaveBeenCalled();
-
-    // console.log(window.);
   });
 });

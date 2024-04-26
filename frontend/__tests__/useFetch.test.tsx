@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { fetchRequest, useFetch } from './../src/custom-hooks/useFetch';
-import { describe, expect, it, vi, vitest } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 describe('useFetch hook', () => {
   it('should initialize with default state', () => {
@@ -34,11 +34,11 @@ describe('useFetch hook', () => {
 
   it('should put the fetch response inside the data state', async () => {
     const mockData = 'vitosdeveloper';
-    globalThis.fetch = vitest
+    globalThis.fetch = vi
       .fn()
       .mockResolvedValueOnce(new Response(JSON.stringify(mockData)));
     const { result } = renderHook(() => useFetch<string>());
-    await result.current.request('/api/data');
+    await result.current.request('/api/data', { method: 'POST' });
     await new Promise((resolve) => setTimeout(resolve, 10));
     expect(result.current.loading).toBeFalsy();
     expect(result.current.error).toBeNull();

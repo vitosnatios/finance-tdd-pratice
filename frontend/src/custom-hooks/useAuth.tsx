@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { getCookie, removeCookie } from '../utils/cookie';
 import { useCallback, useEffect } from 'react';
 import { IUser } from '../context/AuthContext';
+import { IExpense } from '../pages/AddExpenses';
 
 const useAuth = (
   setLoad: (loadState: boolean) => void,
@@ -11,6 +12,7 @@ const useAuth = (
   ) => Promise<
     | {
         user: IUser;
+        expenses: IExpense[];
       }
     | null
     | undefined

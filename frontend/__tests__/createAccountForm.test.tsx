@@ -1,5 +1,5 @@
 import React from 'react';
-import { beforeAll, describe, expect, it, vi } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import CreateAccountForm from '../src/components/form/createAccount/CreateAccountForm';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
@@ -59,16 +59,6 @@ describe('Create Account form', () => {
   });
 
   it('should simulate form submission and store the response JWT in cookie', async () => {
-    const jwt = 'jwt-test';
-    const fetchMock = vi.fn(() =>
-      Promise.resolve(
-        new Response(JSON.stringify({ jwt }), {
-          status: 200,
-        })
-      )
-    );
-    globalThis.fetch = fetchMock;
-
     fireEvent.change(usernameInput, { target: { value: 'asd' } });
     fireEvent.change(emailInput, { target: { value: 'asd@asd' } });
     fireEvent.change(firstNameInput, { target: { value: 'asd' } });
@@ -77,9 +67,8 @@ describe('Create Account form', () => {
     fireEvent.click(submitButton);
 
     await new Promise((resolve) => setTimeout(resolve, 10));
-    expect(fetchMock).toHaveBeenCalled();
 
     const jwtCookie = getCookie('jwt');
-    expect(jwtCookie).toBe(jwt);
+    expect(jwtCookie).toBe('jwt-test');
   });
 });

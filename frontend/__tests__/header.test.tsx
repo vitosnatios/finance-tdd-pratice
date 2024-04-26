@@ -6,10 +6,12 @@ import Logo from '../src/components/partials/header/Logo';
 import { BrowserRouter } from 'react-router-dom';
 
 describe('header', () => {
-  const testNavLinks = (expectedLinks: { [key: string]: string }) => {
-    screen.getByRole('navigation', { name: 'header-navbar' });
-    screen.getByRole('list', { name: 'header-links-list' });
-    const liElements = screen.getAllByRole('link', { name: 'header-link' });
+  const testNavLinks = async (expectedLinks: { [key: string]: string }) => {
+    await screen.findByRole('navigation', { name: 'header-navbar' });
+    await screen.findByRole('list', { name: 'header-links-list' });
+    const liElements = await screen.findAllByRole('link', {
+      name: 'header-link',
+    });
     expect(liElements.length).toBeGreaterThan(0);
     liElements.forEach((link) => {
       const { textContent } = link;
@@ -35,34 +37,46 @@ describe('header', () => {
   it('should show only "Create Account", "Log In" and "Settings" links when logged out', async () => {
     render(
       <BrowserRouter>
-        <NavLinks />
+        <NavLinks setError={() => {}} data={null} loading={false} />
       </BrowserRouter>
     );
+
     const expectedLinks = {
       'Create Account': '/create-account',
       'Log In': '/login',
       Settings: '/settings',
     };
 
-    testNavLinks(expectedLinks);
+    await testNavLinks(expectedLinks);
   });
 
-  // it('should show only "Add Expenses", "View Expenses", "Settings" and "Logout"', async () => {
-  //   const { baseElement } = render(
-  //     <BrowserRouter>
-  //       <NavLinks />
-  //     </BrowserRouter>
-  //   );
+  it('should show only "Add Expenses", "View Expenses", "Settings" and "Logout"', async () => {
+    render(
+      <BrowserRouter>
+        <NavLinks
+          setError={() => {}}
+          data={{
+            user: {
+              _id: '66259e0d1fc173b1a72854e3',
+              username: 'asd',
+              email: 'asd@asd',
+              firstName: 'asd',
+              lastName: 'asd',
+            },
+            expenses: [],
+          }}
+          loading={false}
+        />
+      </BrowserRouter>
+    );
 
-  //   logDOM(baseElement);
+    const expectedLinks = {
+      'Add Expenses': '/add-expenses',
+      'View Expenses': '/view-expenses',
+      Settings: '/settings',
+      Logout: '/logout',
+    };
 
-  //   const expectedLinks = {
-  //     'Add Expenses': '/add-expenses',
-  //     'View Expenses': '/view-expenses',
-  //     Settings: '/settings',
-  //     Logout: '/logout',
-  //   };
-
-  //   testNavLinks(expectedLinks);
-  // });
+    await testNavLinks(expectedLinks);
+  });
 });

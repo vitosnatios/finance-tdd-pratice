@@ -15,7 +15,7 @@ export interface IExpense {
 }
 
 const AddExpenses = () => {
-  const { data } = useAuthContext();
+  const { data, setNewExpense } = useAuthContext();
 
   const [form, setForm] = useState<IExpense>({
     userId: String(data?.user._id),
@@ -49,7 +49,7 @@ const AddExpenses = () => {
       headers: { 'Content-Type': 'application/json' },
     });
     if (!json) return setError('Something went wrong');
-    console.log(json);
+    setNewExpense(json.expense);
   };
 
   const handleInputChange = ({ currentTarget }: FormEvent<HTMLInputElement>) =>

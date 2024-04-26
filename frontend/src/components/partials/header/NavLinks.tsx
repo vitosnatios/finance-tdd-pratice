@@ -1,12 +1,22 @@
 import { Link } from 'react-router-dom';
 import { removeCookie } from '../../../utils/cookie';
-import { useAuthContext } from '../../../context/useAuthContext';
 import { MouseEvent } from 'react';
 import { PacmanLoader } from 'react-spinners';
+import { IUser } from '../../../context/AuthContext';
+import { IExpense } from '../../../pages/AddExpenses';
 
-const NavLinks = () => {
-  const { setError, loading, data } = useAuthContext();
-
+const NavLinks = ({
+  setError,
+  loading,
+  data,
+}: {
+  setError: (err: string) => void;
+  loading: boolean;
+  data: {
+    user: IUser;
+    expenses: IExpense[];
+  } | null;
+}) => {
   const loggedLinks = [
     { text: 'Add Expenses', to: '/add-expenses' },
     { text: 'View Expenses', to: '/view-expenses' },

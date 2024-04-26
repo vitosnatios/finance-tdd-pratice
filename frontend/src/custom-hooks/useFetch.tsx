@@ -70,5 +70,5 @@ export const useFetch = <T,>(loadingState: boolean = false) => {
   );
 
   const { data, loading, error } = fetchState;
-  return { data, loading, error, request, setError, setLoad };
+  return { data, loading, error, request, setError, setLoad, setFetchState };
 };

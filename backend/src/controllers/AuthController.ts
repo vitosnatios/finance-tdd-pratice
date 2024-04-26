@@ -34,12 +34,7 @@ class AuthController {
       if (!valid) throw new Error('Please, make login.');
       const user = await User.findById(valid, { password: 0 });
       if (!user) throw new Error('Please, make login.');
-      const expensesQuery =
-        (await Expense.find({ userId: String(user._id) })) || [];
-      const expenses = expensesQuery.map((expense) => ({
-        ...expense,
-        _id: String(expense._id),
-      }));
+      const expenses = (await Expense.find({ userId: String(user._id) })) || [];
       return res.status(200).json({ user, expenses });
     } catch (error) {
       return res.status(401).json({
