@@ -7,7 +7,7 @@ const Header = () => {
 
   return (
     <header className='bg-gray-800'>
-      <div className='text-white py-6 flex justify-between items-center max-w-screen-xl m-auto'>
+      <div className='text-white py-6 px-4 flex justify-between items-center max-w-screen-xl m-auto'>
         <Logo />
         <NavLinks
           authByJWT={authByJWT}
