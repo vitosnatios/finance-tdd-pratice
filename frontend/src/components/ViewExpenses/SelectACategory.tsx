@@ -79,9 +79,10 @@ const SelectACategory = ({ categoriesKeysByBiggerPrice, expenses }: Props) => {
           {expenses
             .filter(({ category }) => category === selectedCategory)
             .sort(sortBy)
-            .map(({ price, date, _id }) => (
-              <div key={_id}>
+            .map(({ price, description, date, _id }) => (
+              <div className='flex flex-col' key={_id}>
                 <small aria-label='category-date'>{String(date)}</small>
+                <i>{description}</i>
                 <p className='text-emerald-400'>{numberToDolar(price)}</p>
               </div>
             ))}

@@ -16,6 +16,8 @@ export const handlers = [
           _id: '66271e27672d4a3f7cb4b626',
           userId: '66259e0d1fc173b1a72854e3',
           category: 'asd',
+          description: 'miojo da turma da mônica',
+
           price: 123,
           date: 'Mon Apr 22 2024 23:34:15 GMT-0300 (Horário Padrão de Brasília)',
         },
@@ -23,6 +25,7 @@ export const handlers = [
           _id: '6627220cebc60c5d40483d99',
           userId: '66259e0d1fc173b1a72854e3',
           category: 'asd',
+          description: 'gagau',
           price: 123,
           date: 'Mon Apr 22 2024 23:50:52 GMT-0300 (Horário Padrão de Brasília)',
         },
@@ -35,6 +38,7 @@ export const handlers = [
       _id: '123123',
       userId: '66259e0d1fc173b1a72854e3',
       category: 'Food',
+      description: 'gagau',
       price: 3,
       date: 'Mon Apr 22 2024 23:50:52 GMT-0300 (Horário Padrão de Brasília)',
     });
@@ -54,6 +58,7 @@ export const handlers = [
         _id: '666',
         userId: '66259e0d1fc173b1a72854e3',
         category: 'asd',
+        description: 'gagau',
         price: 123,
         date: 'Mon Apr 22 2024 23:50:52 GMT-0300 (Horário Padrão de Brasília)',
       },

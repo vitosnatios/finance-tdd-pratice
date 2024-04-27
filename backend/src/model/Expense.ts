@@ -3,6 +3,7 @@ import { Document, Schema, model } from 'mongoose';
 export interface Expense extends Document {
   userId: string;
   category: string;
+  description: string;
   price: Number;
   date: string;
 }
@@ -12,6 +13,7 @@ export class ExpenseSchema extends Schema<Expense> {
     super({
       userId: { type: String, required: true },
       category: { type: String, required: true },
+      description: { type: String, required: true },
       price: { type: Number, required: true },
       date: { type: String, required: true },
     });

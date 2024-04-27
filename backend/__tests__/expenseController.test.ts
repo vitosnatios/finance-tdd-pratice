@@ -7,6 +7,7 @@ describe('ExpenseController', () => {
   const mockedExpense = {
     userId: '123abc',
     category: 'Food',
+    description: 'burgão do mau',
     price: 1,
   };
 
@@ -37,6 +38,7 @@ describe('ExpenseController', () => {
     );
     expect(status).toBe(200);
     expect(expense.userId).toBe(mockedExpense.userId);
+    expect(expense.description).toBe(mockedExpense.description);
     expect(expense.category).toBe(mockedExpense.category);
     expect(expense.price).toBe(mockedExpense.price);
   });

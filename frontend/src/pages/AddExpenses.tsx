@@ -5,21 +5,25 @@ import Input from '../components/form/Input';
 import { useAuthContext } from '../context/useAuthContext';
 import { useFetch } from '../custom-hooks/useFetch';
 import { getCookie } from '../utils/cookie';
+import { useNavigate } from 'react-router-dom';
 
 export interface IExpense {
   userId: string;
   category: string;
+  description: string;
   price: number;
   _id?: string;
   date?: null | string;
 }
 
 const AddExpenses = () => {
+  const navigate = useNavigate();
   const { data, setNewExpense } = useAuthContext();
 
   const [form, setForm] = useState<IExpense>({
     userId: String(data?.user._id),
     category: '',
+    description: '',
     price: 0,
     _id: '',
     date: null,
@@ -34,7 +38,9 @@ const AddExpenses = () => {
     if (
       !form.userId.trim() ||
       !form.category.trim() ||
-      !String(form.price).trim()
+      !form.description.trim() ||
+      !String(form.price).trim() ||
+      !form.price
     )
       return setError('Please, fill all the fields');
     const json = await request('/api/expense/create', {
@@ -50,6 +56,7 @@ const AddExpenses = () => {
     });
     if (!json) return setError('Something went wrong');
     setNewExpense(json.expense);
+    navigate('/view-expenses');
   };
 
   const handleInputChange = ({ currentTarget }: FormEvent<HTMLInputElement>) =>
@@ -69,6 +76,16 @@ const AddExpenses = () => {
           onChange={handleInputChange}
           value={form.category}
           id='category'
+          type='text'
+        />
+      </Label>
+
+      <Label htmlFor='description'>
+        Description
+        <Input
+          onChange={handleInputChange}
+          value={form.description}
+          id='description'
           type='text'
         />
       </Label>

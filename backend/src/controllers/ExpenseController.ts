@@ -15,10 +15,16 @@ class ExpenseController {
         date: new Date(),
       });
       if (!newExpense) throw new Error('Some internal error.');
-      const { category, price, date, userId } = newExpense;
-      const expenseResponse = { category, price, date, userId };
+      const { category, price, date, userId, description } = newExpense;
       return res.status(200).json({
-        expense: { ...expenseResponse, _id: String(newExpense._id) },
+        expense: {
+          category,
+          price,
+          date,
+          userId,
+          description,
+          _id: String(newExpense._id),
+        },
       });
     } catch (error) {
       return res.status(500).json({

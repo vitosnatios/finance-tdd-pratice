@@ -5,6 +5,7 @@ describe('expense model tests', () => {
   const expectedProperties = [
     { key: 'userId', type: 'string' },
     { key: 'category', type: 'string' },
+    { key: 'description', type: 'string' },
     { key: 'price', type: 'number' },
     { key: 'date', type: 'string' },
   ];
@@ -12,6 +13,7 @@ describe('expense model tests', () => {
   const mockedExpense = {
     userId: '123abc',
     category: 'Food',
+    description: 'burgão do mau',
     price: 1,
     date: String(new Date()),
   };
@@ -28,8 +30,7 @@ describe('expense model tests', () => {
     const expense = await Expense.create(mockedExpense);
     expectedProperties.forEach(({ key, type }, i) => {
       expect(expense[key]).toBeDefined();
-      if (i < 2) expect(typeof expense[key]).toBe(type);
-      else expect(expense[key] instanceof Date);
+      expect(typeof expense[key]).toBe(type);
     });
   });
 });

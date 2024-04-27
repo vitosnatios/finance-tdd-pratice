@@ -10,14 +10,16 @@ describe('expense page', () => {
       _id: '66271e27672d4a3f7cb4b626',
       userId: '66259e0d1fc173b1a72854e3',
       category: 'Food',
-      price: 123,
+      description: 'miojo da turma da mônica',
+      price: 1,
       date: 'Mon Apr 22 2024 23:34:15 GMT-0300 (Horário Padrão de Brasília)',
     },
     {
       _id: '6627220cebc60c5d40483d99',
       userId: '66259e0d1fc173b1a72854e3',
       category: 'Food',
-      price: 123,
+      description: 'ovo com alho e tal',
+      price: 1,
       date: 'Mon Apr 22 2024 23:50:52 GMT-0300 (Horário Padrão de Brasília)',
     },
   ];
@@ -78,10 +80,13 @@ describe('expense page', () => {
     expect(button.textContent).toBe('Food');
     fireEvent.click(button);
     screen.getByLabelText('By');
-
-    expenses.forEach((expense) => screen.getByText(expense.date));
-    const el = screen.getAllByText('$123.00');
+    expenses.forEach((expense) => {
+      screen.getByText(expense.date);
+    });
+    const el = screen.getAllByText('$1.00');
     expect(el.length).toBe(2);
+    screen.getByText('miojo da turma da mônica');
+    screen.getByText('ovo com alho e tal');
   });
 
   it('should filter by newer', () => {
@@ -99,7 +104,6 @@ describe('expense page', () => {
     expect(categoriesDates[0].textContent).toBe(expenses[0].date);
     expect(categoriesDates[1].textContent).toBe(expenses[1].date);
     fireEvent.change(select, { target: { value: 'newer' } });
-
     const categoriesDatesByNewer = screen.getAllByLabelText('category-date');
     expect(categoriesDatesByNewer[1].textContent).toBe(expenses[0].date);
     expect(categoriesDatesByNewer[0].textContent).toBe(expenses[1].date);
