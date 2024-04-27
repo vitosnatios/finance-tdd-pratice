@@ -69,6 +69,7 @@ const AddExpenses = () => {
       title='Add a new Expense'
       handleSubmit={handleSubmit}
       buttonText='Add'
+      className='flex flex-col space-y-2 rounded-md shadow-md p-4'
     >
       <Label htmlFor='category'>
         Category

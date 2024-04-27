@@ -37,7 +37,7 @@ const ViewExpensesComponent = ({ expenses }: Props) => {
           </Link>
         </>
       ) : (
-        <>
+        <div className='flex flex-col gap-8'>
           <ExpensesCharts
             dataWithTotalPrice={dataWithTotalPrice}
             categoriesKeysByBiggerPrice={categoriesKeysByBiggerPrice}
@@ -46,7 +46,7 @@ const ViewExpensesComponent = ({ expenses }: Props) => {
             categoriesKeysByBiggerPrice={categoriesKeysByBiggerPrice}
             expenses={expenses}
           />
-        </>
+        </div>
       )}
     </>
   );

@@ -25,20 +25,18 @@ const NavLinks = ({
   const loggedLinks = [
     { text: 'Add Expenses', to: '/add-expenses' },
     { text: 'View Expenses', to: '/view-expenses' },
-    { text: 'Settings', to: '/settings' },
     { text: 'Logout', to: '/logout' },
   ];
 
   const unloggedLinks = [
     { text: 'Create Account', to: '/create-account' },
     { text: 'Log In', to: '/login' },
-    { text: 'Settings', to: '/settings' },
   ];
   const linksToRender = data ? loggedLinks : unloggedLinks;
 
   return (
     <nav aria-label='header-navbar'>
-      <ul aria-label='header-links-list' className='flex space-x-4'>
+      <ul aria-label='header-links-list' className='flex gap-4'>
         {loading ? (
           <PacmanLoader color='#3b82f6' size='18px' />
         ) : (
@@ -63,7 +61,7 @@ const NavLinks = ({
                 <Link
                   aria-label='header-link'
                   to={to}
-                  className='text-xl font-medium'
+                  className='text-sm md:text-xl font-medium'
                   onClick={handleLogoutClick}
                 >
                   {text}

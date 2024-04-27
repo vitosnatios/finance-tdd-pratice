@@ -7,7 +7,6 @@ describe('routes', () => {
     '',
     'login',
     'create-account',
-    'settings',
     'add-expenses',
     'view-expenses',
   ];

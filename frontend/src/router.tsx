@@ -4,7 +4,6 @@ import Layout from './Layout';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import CreateAccount from './pages/CreateAccount';
-import Settings from './pages/Settings';
 import AddExpenses from './pages/AddExpenses';
 import ViewExpenses from './pages/ViewExpenses';
 
@@ -23,10 +22,6 @@ const children: {
   {
     path: 'create-account',
     element: <CreateAccount />,
-  },
-  {
-    path: 'settings',
-    element: <Settings />,
   },
   {
     path: 'add-expenses',

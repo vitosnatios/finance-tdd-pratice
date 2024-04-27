@@ -26,16 +26,20 @@ const ExpensesCharts = ({
   ];
   return (
     <ThemeProvider theme={createTheme({ palette: { mode: 'dark' } })}>
-      <div className='flex flex-wrap gap-8 items-center'>
+      <div className='grid md:grid-cols-2 gap-2 items-center'>
         <BarChart
           series={barChartSeries}
-          height={290}
-          width={400}
-          sx={{ maxWidth: 400 }}
+          height={300}
           xAxis={[{ data: ['Expenses'], scaleType: 'band' }]}
-          aria-label='oiiiaaa'
+          sx={{ maxWidth: { xs: 260, sm: 400, md: 400, lg: 400, xl: 400 } }}
         />
-        <PieChart series={pieChartSeries} width={400} height={200} />
+        <PieChart
+          series={pieChartSeries}
+          height={300}
+          sx={{
+            maxWidth: { xs: 260, sm: 400, md: 400, lg: 400, xl: 400 },
+          }}
+        />
       </div>
     </ThemeProvider>
   );
