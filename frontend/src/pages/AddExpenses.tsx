@@ -9,9 +9,9 @@ import { getCookie } from '../utils/cookie';
 export interface IExpense {
   userId: string;
   category: string;
-  price: string;
+  price: number;
   _id?: string;
-  date?: null | Date;
+  date?: null | string;
 }
 
 const AddExpenses = () => {
@@ -20,7 +20,7 @@ const AddExpenses = () => {
   const [form, setForm] = useState<IExpense>({
     userId: String(data?.user._id),
     category: '',
-    price: '',
+    price: 0,
     _id: '',
     date: null,
   });
