@@ -12,6 +12,7 @@ class Router {
   }
 
   private static initRoutes() {
+    this.router.post('/', (_, res) => res.send('running'));
     this.router.post('/user/create', UserController.create);
     this.router.post('/user/login', AuthController.login);
     this.router.post('/auth/jwt', AuthController.auth);
