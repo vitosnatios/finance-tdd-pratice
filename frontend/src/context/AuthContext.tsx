@@ -10,7 +10,7 @@ export type IUser = {
 export const AuthContext = createContext<{
   data: { user: IUser; expenses: IExpense[] } | null;
   loading: boolean;
-  authByJWT: (jwt: string | undefined) => Promise<unknown>;
+  authByJWT: (jwt: string | undefined, login?: boolean) => Promise<unknown>;
   setError: (err: string) => void;
   setNewExpense: (newExpense: IExpense) => void;
 }>({
@@ -28,7 +28,7 @@ const AuthContextProvider = ({ children }: PropsWithChildren) => {
       expenses: IExpense[];
     } | null>(true);
 
-  const { authByJWT } = useAuth(setLoad, request, data);
+  const { authByJWT } = useAuth(setLoad, request);
 
   const setNewExpense = (newExpense: IExpense) =>
     setFetchState((p) => {

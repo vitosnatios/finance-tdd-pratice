@@ -16,10 +16,10 @@ const useAuth = (
       }
     | null
     | undefined
-  >,
-  data: {
-    user: IUser;
-  } | null
+  >
+  // data: {
+  //   user: IUser;
+  // } | null
 ) => {
   const navigate = useNavigate();
 
@@ -28,21 +28,21 @@ const useAuth = (
     []
   );
 
-  const isntAPublicPath = useCallback(
+  const isntPublic = useCallback(
     (pathname: string) => !publicRoutes().includes(pathname),
     [publicRoutes]
   );
 
-  const navigateIfPathnameIsPrivate = useCallback(
-    (pathname: string) => isntAPublicPath(pathname) && navigate('/login'),
-    [navigate, isntAPublicPath]
+  const navigateIfPrivate = useCallback(
+    (pathname: string) => isntPublic(pathname) && navigate('/login'),
+    [navigate, isntPublic]
   );
 
   const authByJWT = useCallback(
-    async (jwt: string | undefined) => {
-      if (!jwt) {
+    async (jwt: string | undefined, login: boolean = false) => {
+      if (!jwt && isntPublic(location.pathname)) {
         setLoad(false);
-        navigateIfPathnameIsPrivate(location.pathname);
+        navigateIfPrivate(location.pathname);
         return;
       }
       const jwtResponse = await request('/api/auth/jwt', {
@@ -53,32 +53,15 @@ const useAuth = (
         },
       });
       if (!jwtResponse) {
-        navigateIfPathnameIsPrivate(location.pathname);
+        navigateIfPrivate(location.pathname);
         removeCookie('jwt');
         return;
       }
-      if (isntAPublicPath(location.pathname)) return;
-      navigate('/');
-      return;
+      if (isntPublic(location.pathname)) return;
+      if (login) navigate('/');
     },
-    [request, navigate, setLoad, navigateIfPathnameIsPrivate, isntAPublicPath]
+    [request, navigate, setLoad, navigateIfPrivate, isntPublic]
   );
-
-  useEffect(() => {
-    if (data && publicRoutes().includes(location.pathname)) {
-      navigate('/');
-    } else if (!data && isntAPublicPath(location.pathname)) {
-      navigate('/login');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    authByJWT,
-    location.pathname,
-    data,
-    publicRoutes,
-    navigate,
-    isntAPublicPath,
-  ]);
 
   useEffect(() => {
     setLoad(true);

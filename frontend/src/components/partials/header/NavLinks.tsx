@@ -7,10 +7,15 @@ import { IExpense } from '../../../pages/AddExpenses';
 
 const NavLinks = ({
   setError,
+  authByJWT,
   loading,
   data,
 }: {
   setError: (err: string) => void;
+  authByJWT: (
+    jwt: string | undefined,
+    login?: boolean | undefined
+  ) => Promise<unknown>;
   loading: boolean;
   data: {
     user: IUser;
@@ -45,6 +50,7 @@ const NavLinks = ({
                 ) => {
                   e.preventDefault();
                   removeCookie('jwt');
+                  await authByJWT(undefined);
                   setError('');
                 }
               : undefined;
