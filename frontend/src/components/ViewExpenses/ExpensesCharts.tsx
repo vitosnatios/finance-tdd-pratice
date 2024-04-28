@@ -30,6 +30,7 @@ const ExpensesCharts = ({
         <BarChart
           series={barChartSeries}
           height={300}
+          width={260}
           xAxis={[{ data: ['Expenses'], scaleType: 'band' }]}
           sx={{ maxWidth: { xs: 260, sm: 400, md: 400, lg: 400, xl: 400 } }}
         />

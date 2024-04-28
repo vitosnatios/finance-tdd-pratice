@@ -8,15 +8,9 @@ const port = Number(process.env.PORT) || 3000;
 (async () => {
   try {
     require('dotenv').config();
-    const whitelist = [process.env.CLIENT_URL];
     const corsOptions = {
-      origin: function (
-        origin: string,
-        callback: (err: Error | null, allow?: boolean) => void
-      ) {
-        if (whitelist.includes(origin)) callback(null, true);
-        else callback(new Error('Not allowed by CORS'));
-      },
+      origin: process.env.CLIENT_URL,
+      optionsSuccessStatus: 200,
     };
     await Database.connect(process.env.MONGODB_URI as string);
     app.use(cors(corsOptions));

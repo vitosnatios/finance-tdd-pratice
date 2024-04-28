@@ -34,7 +34,7 @@ describe('Home component', () => {
     const addExpensesLink = screen.getByText('Add Expenses');
     expect(addExpensesLink).toHaveProperty(
       'href',
-      window.location.origin + '/add-expenses'
+      window.location.origin + '/login'
     );
     expect(addExpensesLink).toHaveProperty(
       'className',
@@ -44,7 +44,7 @@ describe('Home component', () => {
     const viewExpensesLink = screen.getByText('View Expense Charts');
     expect(viewExpensesLink).toHaveProperty(
       'href',
-      window.location.origin + '/view-expenses'
+      window.location.origin + '/login'
     );
     expect(viewExpensesLink).toHaveProperty(
       'className',
