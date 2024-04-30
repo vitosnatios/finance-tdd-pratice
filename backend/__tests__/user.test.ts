@@ -16,10 +16,6 @@ describe('User schema/model', () => {
     await MockDbConnection.connect();
   });
 
-  afterAll(async () => {
-    await MockDbConnection.disconnect();
-  });
-
   it('should create and get a error/message saying that some usarname already exists', async () => {
     const newUser = await User.create(userData);
     expect(newUser.email).toBe(userData.email);

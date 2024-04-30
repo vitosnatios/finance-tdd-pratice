@@ -22,10 +22,6 @@ describe('expense model tests', () => {
     await MockDbConnection.connect();
   });
 
-  afterAll(async () => {
-    await MockDbConnection.disconnect();
-  });
-
   it('should create, have all the properties and their correct types', async () => {
     const expense = await Expense.create(mockedExpense);
     expectedProperties.forEach(({ key, type }, i) => {

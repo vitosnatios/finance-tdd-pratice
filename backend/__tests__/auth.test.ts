@@ -22,10 +22,6 @@ describe('Auth', () => {
     await User.deleteOne({ username: userData.username });
   });
 
-  afterAll(async () => {
-    await MockDbConnection.disconnect();
-  });
-
   it('should compare a right and wrong password', async () => {
     const user = await User.create(userData);
     const samePassword = await AuthService.comparePasswords(

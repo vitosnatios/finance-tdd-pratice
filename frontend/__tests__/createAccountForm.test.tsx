@@ -1,8 +1,11 @@
 import React from 'react';
 import { beforeAll, describe, expect, it } from 'vitest';
 import CreateAccountForm from '../src/components/form/createAccount/CreateAccountForm';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import {
+  fireEvent,
+  render,
+  screen,
+} from './../src/test-utils/testing-library-utils';
 import { getCookie } from '../src/utils/cookie';
 
 describe('Create Account form', () => {
@@ -14,11 +17,7 @@ describe('Create Account form', () => {
     submitButton;
 
   beforeAll(() => {
-    render(
-      <BrowserRouter>
-        <CreateAccountForm />
-      </BrowserRouter>
-    );
+    render(<CreateAccountForm />);
   });
 
   it('should be have a form with a Create Your Account title', () => {

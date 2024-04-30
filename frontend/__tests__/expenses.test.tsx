@@ -1,8 +1,12 @@
 import React from 'react';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+} from './../src/test-utils/testing-library-utils';
 import ViewExpensesComponent from '../src/components/ViewExpenses/ViewExpensesComponent';
-import { BrowserRouter } from 'react-router-dom';
 
 describe('expense page', () => {
   const expenses = [
@@ -40,40 +44,24 @@ describe('expense page', () => {
   beforeEach(cleanup);
 
   it('should render its "Your expenses" title', () => {
-    render(
-      <BrowserRouter>
-        <ViewExpensesComponent expenses={null} />
-      </BrowserRouter>
-    );
+    render(<ViewExpensesComponent expenses={null} />);
     const title = screen.getByRole('heading', { name: 'your-expenses-title' });
     expect(title.textContent).toBe('Your expenses');
   });
 
   it(`should render "You haven't added any expenses yet."`, async () => {
-    render(
-      <BrowserRouter>
-        <ViewExpensesComponent expenses={null} />
-      </BrowserRouter>
-    );
+    render(<ViewExpensesComponent expenses={null} />);
     screen.getByText("You haven't added any expenses yet.");
   });
 
   it('should have a "Add some expenses to view them" link and it should have a "/add-expenses" href', () => {
-    render(
-      <BrowserRouter>
-        <ViewExpensesComponent expenses={null} />
-      </BrowserRouter>
-    );
+    render(<ViewExpensesComponent expenses={null} />);
     const link = screen.getByRole('link', { name: 'add-expenses-link' });
     expect(link.textContent).toBe('Add some expenses to view them');
   });
 
   it('should have a "Food" button, after clicking it, it should print their expenses and a select element used to sort them', () => {
-    render(
-      <BrowserRouter>
-        <ViewExpensesComponent expenses={expenses} />
-      </BrowserRouter>
-    );
+    render(<ViewExpensesComponent expenses={expenses} />);
     const button = screen.getByRole('button', {
       name: 'category-button',
     });
@@ -90,11 +78,7 @@ describe('expense page', () => {
   });
 
   it('should filter by newer', () => {
-    render(
-      <BrowserRouter>
-        <ViewExpensesComponent expenses={expenses} />
-      </BrowserRouter>
-    );
+    render(<ViewExpensesComponent expenses={expenses} />);
     const button = screen.getByRole('button', {
       name: 'category-button',
     });

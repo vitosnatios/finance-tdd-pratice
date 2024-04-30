@@ -15,10 +15,6 @@ describe('ExpenseController', () => {
     await MockDbConnection.connect();
   });
 
-  afterAll(async () => {
-    await MockDbConnection.disconnect();
-  });
-
   it('should give the error "You need to log in."', async () => {
     const { message, status } = await MockServerRequest.post(
       ExpenseController.create,

@@ -1,9 +1,12 @@
 import React from 'react';
-import { afterEach, describe, expect, it } from 'vitest';
-import { cleanup, render, screen } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import {
+  cleanup,
+  render,
+  screen,
+} from './../src/test-utils/testing-library-utils';
 import NavLinks from '../src/components/partials/header/NavLinks';
 import Logo from '../src/components/partials/header/Logo';
-import { BrowserRouter } from 'react-router-dom';
 
 describe('header', () => {
   const testNavLinks = async (expectedLinks: { [key: string]: string }) => {
@@ -25,20 +28,19 @@ describe('header', () => {
   afterEach(cleanup);
 
   it('should have the app name', () => {
-    render(
-      <BrowserRouter>
-        <Logo />
-      </BrowserRouter>
-    );
+    render(<Logo />);
     const logo = screen.getByRole('heading', { name: 'header-logo' });
     expect(logo.textContent).toBe('Finance App (TDD Pratice)');
   });
 
   it('should show only "Create Account", "Log In" and "Settings" links when logged out', async () => {
     render(
-      <BrowserRouter>
-        <NavLinks setError={() => {}} data={null} loading={false} />
-      </BrowserRouter>
+      <NavLinks
+        authByJWT={vi.fn()}
+        setError={() => {}}
+        data={null}
+        loading={false}
+      />
     );
 
     const expectedLinks = {
@@ -52,22 +54,21 @@ describe('header', () => {
 
   it('should show only "Add Expenses", "View Expenses", "Settings" and "Logout"', async () => {
     render(
-      <BrowserRouter>
-        <NavLinks
-          setError={() => {}}
-          data={{
-            user: {
-              _id: '66259e0d1fc173b1a72854e3',
-              username: 'asd',
-              email: 'asd@asd',
-              firstName: 'asd',
-              lastName: 'asd',
-            },
-            expenses: [],
-          }}
-          loading={false}
-        />
-      </BrowserRouter>
+      <NavLinks
+        authByJWT={vi.fn()}
+        setError={() => {}}
+        data={{
+          user: {
+            _id: '66259e0d1fc173b1a72854e3',
+            username: 'asd',
+            email: 'asd@asd',
+            firstName: 'asd',
+            lastName: 'asd',
+          },
+          expenses: [],
+        }}
+        loading={false}
+      />
     );
 
     const expectedLinks = {

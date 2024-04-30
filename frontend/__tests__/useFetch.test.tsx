@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react';
+import { renderHook } from './../src/test-utils/testing-library-utils';
 import { fetchRequest, useFetch } from './../src/custom-hooks/useFetch';
 import { describe, expect, it, vi } from 'vitest';
 

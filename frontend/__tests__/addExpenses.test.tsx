@@ -1,20 +1,16 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import {
+  fireEvent,
+  render,
+  screen,
+} from './../src/test-utils/testing-library-utils';
 import { beforeAll, describe, expect, it } from 'vitest';
 import AddExpenses from './../src/pages/AddExpenses';
-import AuthContextProvider from '../src/context/AuthContext';
-import { BrowserRouter } from 'react-router-dom';
 
 describe('add-expenses page test', () => {
   let submitButton, categoryInput, priceInput, descriptionInput;
   beforeAll(() => {
-    render(
-      <BrowserRouter>
-        <AuthContextProvider>
-          <AddExpenses />
-        </AuthContextProvider>
-      </BrowserRouter>
-    );
+    render(<AddExpenses />);
   });
 
   it('should have a "Add a new expense" title', () => {

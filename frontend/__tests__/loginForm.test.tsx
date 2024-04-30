@@ -1,19 +1,18 @@
 import React from 'react';
 import { beforeAll, describe, expect, it } from 'vitest';
 import LoginForm from './../src/components/form/login/LoginForm';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import {
+  fireEvent,
+  render,
+  screen,
+} from './../src/test-utils/testing-library-utils';
 import { getCookie } from '../src/utils/cookie';
 
 describe('login form', () => {
   let usernameInput, passwordInput, submitButton;
 
   beforeAll(() => {
-    render(
-      <BrowserRouter>
-        <LoginForm />
-      </BrowserRouter>
-    );
+    render(<LoginForm />);
   });
 
   it('should be have a form with a login title', () => {

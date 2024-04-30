@@ -1,16 +1,11 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from './../src/test-utils/testing-library-utils';
 import Home from './../src/pages/Home';
 import { beforeAll, describe, expect, it } from 'vitest';
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
 
 describe('Home component', () => {
   beforeAll(() => {
-    render(
-      <BrowserRouter>
-        <Home />
-      </BrowserRouter>
-    );
+    render(<Home />);
   });
 
   it('should render the component with basic elements', () => {
